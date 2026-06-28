@@ -1,0 +1,146 @@
+<svg width="200" height="200" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#0d1020"/>
+      <stop offset="100%" stop-color="#0b0d1a"/>
+    </linearGradient>
+
+    <!-- Sun warmth bleeds across the whole right half -->
+    <radialGradient id="sunGlow" cx="265" cy="60" r="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#fbbf24" stop-opacity="0.12"/>
+      <stop offset="35%"  stop-color="#fbbf24" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Temperature line: cold → warm → cold across the day arc -->
+    <linearGradient id="tempLine" x1="28" y1="0" x2="372" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#60a5fa"/>
+      <stop offset="28%"  stop-color="#34d399"/>
+      <stop offset="50%"  stop-color="#facc15"/>
+      <stop offset="72%"  stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+
+    <!-- Temperature glow (wide, fades at edges) -->
+    <linearGradient id="tempGlow" x1="28" y1="0" x2="372" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#38bdf8" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#38bdf8"/>
+      <stop offset="50%"  stop-color="#fbbf24"/>
+      <stop offset="80%"  stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Temperature area fill (under curve) -->
+    <linearGradient id="tempArea" x1="28" y1="0" x2="372" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#38bdf8" stop-opacity="0.07"/>
+      <stop offset="50%"  stop-color="#facc15" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.07"/>
+    </linearGradient>
+
+    <!-- UV dashed gradient -->
+    <linearGradient id="uvLine" x1="55" y1="0" x2="345" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#4ade80" stop-opacity="0.2"/>
+      <stop offset="18%"  stop-color="#4ade80"/>
+      <stop offset="50%"  stop-color="#fb923c"/>
+      <stop offset="82%"  stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Rain fill (vertical fade) -->
+    <linearGradient id="rainFill" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#60a5fa" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.04"/>
+    </linearGradient>
+
+    <!-- Night shading (fades inward from each edge) -->
+    <linearGradient id="nightL" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#030509" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#030509" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="nightR" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#030509" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#030509" stop-opacity="0.68"/>
+    </linearGradient>
+
+  </defs>
+
+  <!-- ── 1. Background ───────────────────────────────────────────────────── -->
+  <rect width="400" height="400" rx="58" fill="url(#bg)"/>
+
+  <!-- ── 2. Cloud — ghosted into the upper-left sky, behind everything ──── -->
+  <g opacity="0.35">
+    <circle cx="72"  cy="88" r="28" fill="#1e3a5f"/>
+    <circle cx="110" cy="68" r="40" fill="#1e3a5f"/>
+    <circle cx="152" cy="84" r="26" fill="#1e3a5f"/>
+  </g>
+
+  <!-- ── 3. Sun glow — radiates from upper-right through the whole chart ── -->
+  <rect width="400" height="400" rx="58" fill="url(#sunGlow)"/>
+
+  <!-- ── 4. Sun disc + rays — faint silhouette, clearly behind chart data ─ -->
+  <g opacity="0.20" transform="translate(265, 60)">
+    <line x1="0"   y1="-52" x2="0"   y2="-38" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+    <line x1="37"  y1="-37" x2="27"  y2="-27" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+    <line x1="52"  y1="0"   x2="38"  y2="0"   stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+    <line x1="37"  y1="37"  x2="27"  y2="27"  stroke="#fbbf24" stroke-width="5" stroke-linecap="round" opacity="0.40"/>
+    <line x1="0"   y1="52"  x2="0"   y2="38"  stroke="#fbbf24" stroke-width="5" stroke-linecap="round" opacity="0.25"/>
+    <line x1="-37" y1="37"  x2="-27" y2="27"  stroke="#fbbf24" stroke-width="5" stroke-linecap="round" opacity="0.20"/>
+    <line x1="-52" y1="0"   x2="-38" y2="0"   stroke="#fbbf24" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+    <line x1="-37" y1="-37" x2="-27" y2="-27" stroke="#fbbf24" stroke-width="5" stroke-linecap="round" opacity="0.60"/>
+    <circle cx="0" cy="0" r="30" fill="#fbbf24"/>
+  </g>
+
+  <!-- ── 5. Night shading (morning left, evening right) ─────────────────── -->
+  <rect x="28" y="28" width="86" height="344" fill="url(#nightL)"/>
+  <rect x="286" y="28" width="86" height="344" fill="url(#nightR)"/>
+
+  <!-- ── 6. Grid — full-height, passes over the weather symbols ────────── -->
+  <!-- Verticals: 6h (x=114), 12h (x=200), 18h (x=286) -->
+  <g stroke="#1b2340" stroke-width="1.5">
+    <line x1="114" y1="28" x2="114" y2="372"/>
+    <line x1="286" y1="28" x2="286" y2="372"/>
+  </g>
+  <!-- Noon — slightly brighter -->
+  <line x1="200" y1="28" x2="200" y2="372" stroke="#202c4e" stroke-width="2.2"/>
+
+  <!-- Horizontals -->
+  <g stroke="#161e38" stroke-width="1">
+    <line x1="28" y1="185" x2="372" y2="185"/>
+    <line x1="28" y1="290" x2="372" y2="290"/>
+  </g>
+
+  <!-- ── 7. Temperature area fill ──────────────────────────────────────── -->
+  <path d="M 28,372 L 28,308 C 90,290 148,248 200,195 C 252,248 310,288 372,308 L 372,372 Z"
+        fill="url(#tempArea)"/>
+
+  <!-- ── 8. UV dashed gradient line ────────────────────────────────────── -->
+  <path d="M 55,268 C 108,244 158,204 200,155 C 242,204 292,242 345,264"
+        fill="none" stroke="url(#uvLine)" stroke-width="3.5"
+        stroke-dasharray="10,7" stroke-linecap="round" opacity="0.80"/>
+
+  <!-- ── 9. Temperature curve ──────────────────────────────────────────── -->
+  <!-- Broad glow -->
+  <path d="M 28,308 C 90,290 148,248 200,195 C 252,248 310,288 372,308"
+        fill="none" stroke="url(#tempGlow)" stroke-width="30"
+        stroke-linecap="round" opacity="0.10"/>
+  <!-- Coloured line -->
+  <path d="M 28,308 C 90,290 148,248 200,195 C 252,248 310,288 372,308"
+        fill="none" stroke="url(#tempLine)" stroke-width="8"
+        stroke-linecap="round"/>
+
+  <!-- ── 10. Peak annotation ────────────────────────────────────────────── -->
+  <circle cx="200" cy="195" r="9" fill="#facc15"/>
+  <text x="200" y="140"
+        text-anchor="middle"
+        font-family="system-ui, -apple-system, Arial, sans-serif"
+        font-size="23" font-weight="700" fill="#fbbf24">24°</text>
+
+  <!-- ── 11. Rain fill (bottom strip) ──────────────────────────────────── -->
+  <path d="M 28,372 L 28,350 C 90,346 145,344 200,343 C 255,342 310,345 372,348 L 372,372 Z"
+        fill="url(#rainFill)"/>
+  <path d="M 28,350 C 90,346 145,344 200,343 C 255,342 310,345 372,348"
+        fill="none" stroke="#60a5fa" stroke-width="2.5"
+        stroke-dasharray="5,6" stroke-linecap="round" opacity="0.52"/>
+
+</svg>
