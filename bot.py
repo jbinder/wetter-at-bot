@@ -229,7 +229,7 @@ async def cmd_weather(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     chat_id = update.effective_chat.id
     users = load_users()
     user = get_user(users, chat_id)
-    msg = await update.message.reply_text(f"⏳ Fetching weather for *{user['city']}*\\…")
+    msg = await update.message.reply_text(f"⏳ Fetching weather for *{user['city']}*…")
     try:
         await send_weather_photo(context.bot, chat_id, user["city"])
         await msg.delete()

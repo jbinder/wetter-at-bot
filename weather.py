@@ -140,9 +140,14 @@ def make_caption(data: dict, city: str) -> str:
         uv_advice = "Avoid sun between 10:00-16:00"
 
     now = datetime.now(ZoneInfo("Europe/Vienna"))
-    now_h = now.hour
-    now_temp = hourly["temperature_2m"][now_h]
-    now_uv = hourly["uv_index"][now_h]
+    now_h = now.hour + now.minute / 60
+    now_floor = min(int(now_h), 23)
+    now_ceil = min(now_floor + 1, 23)
+    now_frac = now_h - now_floor
+    now_temp = (hourly["temperature_2m"][now_floor] * (1 - now_frac)
+                + hourly["temperature_2m"][now_ceil] * now_frac)
+    now_uv = (hourly["uv_index"][now_floor] * (1 - now_frac)
+              + hourly["uv_index"][now_ceil] * now_frac)
 
     date_str = hourly["time"][0][:10]
     date_display = datetime.strptime(date_str, "%Y-%m-%d").strftime("%A, %d %B %Y")
