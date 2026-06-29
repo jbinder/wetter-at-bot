@@ -1,5 +1,6 @@
 import io
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import matplotlib
 matplotlib.use("Agg")
@@ -82,7 +83,7 @@ def generate_weather_chart(data: dict, city: str) -> io.BytesIO:
     date_str     = hourly["time"][0][:10]
     date_display = datetime.strptime(date_str, "%Y-%m-%d").strftime("%A, %d %B %Y")
 
-    now   = datetime.now()
+    now   = datetime.now(ZoneInfo("Europe/Vienna"))
     now_h = now.hour + now.minute / 60
 
     temp_max   = float(np.nanmax(temps))
