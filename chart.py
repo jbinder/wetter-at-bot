@@ -216,8 +216,24 @@ def generate_weather_chart(data: dict, city: str) -> io.BytesIO:
 
     # ── Now marker ──────────────────────────────────────────────────────────────
     if 0 <= now_h < N_HOURS:
+        now_floor = min(int(now_h), N_HOURS - 1)
+        now_ceil = min(now_floor + 1, N_HOURS - 1)
+        now_frac = now_h - now_floor
+        now_temp = float(temps[now_floor] * (1 - now_frac) + temps[now_ceil] * now_frac)
+        now_uv = float(uv[now_floor] * (1 - now_frac) + uv[now_ceil] * now_frac)
+
         ax.axvline(now_h, color=NOW_C, linewidth=1.6, linestyle="--", alpha=0.85, zorder=7)
         ax.text(now_h + 0.15, y_label_top, "now", color=NOW_C, fontsize=7.5, va="top")
+
+        # Current temperature at the curve
+        ax.scatter([now_h], [now_temp], color=NOW_C, s=60, zorder=9, marker="D")
+        ax.text(now_h + 0.15, now_temp + offset * 0.45, f"{now_temp:.1f}°C",
+                color=NOW_C, fontsize=8.5, fontweight="bold", va="bottom", zorder=9)
+
+        # Current UV at the curve
+        ax_uv.scatter([now_h], [now_uv], color=_uv_color(now_uv), s=60, zorder=9, marker="D")
+        ax_uv.text(now_h + 0.15, now_uv + 0.3, f"UV {now_uv:.1f}",
+                   color=_uv_color(now_uv), fontsize=8.5, fontweight="bold", va="bottom", zorder=9)
 
     # ── Max / min temp + max UV annotations ────────────────────────────────────
     ax.text(temp_max_i, temp_max + offset, f"{temp_max:.1f}°C",

@@ -3,6 +3,7 @@ import time
 
 import requests
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 _weather_cache: dict[str, tuple[float, dict]] = {}
 _CACHE_TTL = 300  # seconds
@@ -124,14 +125,24 @@ def make_caption(data: dict, city: str) -> str:
 
     if uv_max < 3:
         uv_level = "Low"
+        uv_advice = "No protection needed"
     elif uv_max < 6:
         uv_level = "Moderate"
+        uv_advice = "Sunscreen SPF 30+ recommended"
     elif uv_max < 8:
         uv_level = "High"
+        uv_advice = "Sunscreen, hat & shade around midday"
     elif uv_max < 11:
         uv_level = "Very High"
+        uv_advice = "Extra protection essential, limit midday sun"
     else:
         uv_level = "Extreme"
+        uv_advice = "Avoid sun between 10:00-16:00"
+
+    now = datetime.now(ZoneInfo("Europe/Vienna"))
+    now_h = now.hour
+    now_temp = hourly["temperature_2m"][now_h]
+    now_uv = hourly["uv_index"][now_h]
 
     date_str = hourly["time"][0][:10]
     date_display = datetime.strptime(date_str, "%Y-%m-%d").strftime("%A, %d %B %Y")
@@ -143,5 +154,7 @@ def make_caption(data: dict, city: str) -> str:
         f"🌧 Rain up to *{_esc(f'{max_rain:.1f}')}* mm/h\n"
         f"💨 Wind max: *{_esc(f'{wind_max:.0f}')}* km/h\n"
         f"☀️ UV max: *{_esc(f'{uv_max:.1f}')}* \\({_esc(uv_level)}\\)\n"
-        f"🌅 {_esc(sunrise)} rise  🌇 {_esc(sunset)} set"
+        f"🌅 {_esc(sunrise)} rise  🌇 {_esc(sunset)} set\n\n"
+        f"📍 *Now:* {_esc(f'{now_temp:.1f}')}°C · UV {_esc(f'{now_uv:.1f}')}\n"
+        f"🧴 {_esc(uv_advice)}"
     )
